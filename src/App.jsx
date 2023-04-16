@@ -33,6 +33,17 @@ function App() {
       label: "VERY HIGH", value: 7
    }
   ];
+  const weather = [
+    {
+        label: "WET YEAR", value: 0
+    },
+    {
+      label: "MEDIUM", value: -500
+    },
+    {
+      label: "DRY YEAR", value: -1000
+    }
+  ];
   const initial2 = 
     {
       Fertilizer_Reduction: 0,
@@ -50,6 +61,7 @@ function App() {
   const [value1, setValue1] = React.useState(0);
   const [value2, setValue2] = React.useState(0);
   const [Indexcrop, setIndexcrop] = React.useState(3);
+  const [Weather, setWeather] = React.useState(0);
   
   React.useEffect(() => {
     console.log(value1, value2);
@@ -63,14 +75,27 @@ function App() {
       money.Wetland_Restoration=0;
     }
 
-     if (money.Fertilizer_Reduction+money.Wetland_Restoration>10){}
+    //  if (money.Fertilizer_Reduction+money.Wetland_Restoration>10){}
     setData2(money);
   }, [Indexcrop])
   
 
-  // React.useEffect(() => {
-  //   console.log(data2.Fertilizer_Reduction)
-  // }, [data2]);
+  React.useEffect(() => {
+    console.log('weather',Weather)
+    const item = {...data}
+    item.Denitrification = calcaulateDenitrification(value2);
+    item.Nitrates_Entering_Watershed= initial.Nitrates_Entering_Watershed-calcaulateNitrates(value1);
+    if (value1 == 0){item.Nitrates_Entering_Watershed=initial.Nitrates_Entering_Watershed;}
+    // if (Weather==0){item.Nitrates_Entering_Watershed=item.Nitrates_Entering_Watershed;}
+    // if (Weather==-500){
+    //   item.Nitrates_Entering_Watershed=initial.Nitrates_Entering_Watershed-500;
+    //   item.Nitrates_to_Gulf = (initial.Nitrates_Entering_Watershed - initial.Denitrification).toFixed(2);
+    // }
+    // if (Weather==-1000){item.Nitrates_Entering_Watershed=initial.Nitrates_Entering_Watershed-1000;
+    //   item.Nitrates_to_Gulf = (initial.Nitrates_Entering_Watershed - initial.Denitrification).toFixed(2);}
+    
+    setData(item);
+  }, [Weather]);
 
   const handleChange = (event, newValue) => {
     const item ={...data}
@@ -83,11 +108,13 @@ function App() {
     if (newValue == 0){money.Fertilizer_Reduction = 0;}
 
     // calculates data for Nitrates_Entering_Watershed
-    const nitrate_removed = -867.13*Math.pow((newValue/100), 2)+(1550.8*(newValue/100))+39.93;
-  //  console.log('nitrate_removed', nitrate_removed);
-  if  (newValue > 0){item.Nitrates_Entering_Watershed = (initial.Nitrates_Entering_Watershed - nitrate_removed).toFixed(2);}
-  else if(newValue == 0){item.Nitrates_Entering_Watershed = initial.Nitrates_Entering_Watershed;}
     
+    item.Nitrates_Entering_Watershed =initial.Nitrates_Entering_Watershed - calcaulateNitrates(newValue);
+    
+    console.log('item.Nitrates_Entering_Watershed', item.Nitrates_Entering_Watershed);
+  
+   if(newValue == 0){item.Nitrates_Entering_Watershed = initial.Nitrates_Entering_Watershed;}
+  
 
     item.Nitrates_to_Gulf = (item.Nitrates_Entering_Watershed - item.Denitrification).toFixed(2);
     console.log('value1 ', newValue)
@@ -103,6 +130,16 @@ function App() {
     return Total_Cost.toFixed(2);
   }
 
+  function calcaulateNitrates(newValue){
+    const nitrate_removed = -867.13*Math.pow((newValue/100), 2)+(1550.8*(newValue/100))+39.93;
+    return  nitrate_removed.toFixed(2)
+  }
+
+  function calcaulateDenitrification(newValue){
+    const restore_denitrification= -375.29*Math.pow((newValue/100), 2)+(766.2*(newValue/100))+687.34;
+    
+    return  restore_denitrification.toFixed(2)
+  }
   const handleChange2 = (event, newValue) => {
     setValue2(newValue);
     
@@ -113,10 +150,10 @@ function App() {
     if (newValue == 0){money2.Wetland_Restoration = 0;}
 
     //calculates data for Denitrification
-    const restore_denitrification= -375.29*Math.pow((newValue/100), 2)+(766.2*(newValue/100))+687.34;
+    // const restore_denitrification= -375.29*Math.pow((newValue/100), 2)+(766.2*(newValue/100))+687.34;
    // console.log('restore_denitrification', restore_denitrification);
-    item2.Denitrification = restore_denitrification.toFixed(2);
-
+    item2.Denitrification = calcaulateDenitrification(newValue);
+    console.log('Denitrification', item2.Denitrification)
     item2.Nitrates_to_Gulf = (item2.Nitrates_Entering_Watershed-item2.Denitrification).toFixed(2);
 
     setData(item2)
@@ -129,6 +166,8 @@ function App() {
     const Total_Cost2=(cost_of_lot2*Indexcrop)+((newValue/100)*20);
     return  Total_Cost2.toFixed(2)
   }
+
+
 
     // setData((prevData) => {
     //   const newData = [...prevData];
@@ -211,11 +250,29 @@ function App() {
             <p><b>WEATHER</b></p>
           </div>
           <div className='weather' style={{zIndex:10}}> 
-            <select className= 'weather2'>
+            {/* <select className= 'weather2'>
                 <option value="WET_YEAR">WET YEAR</option>
                 <option value="MEDIUM">MEDIUM</option>
                 <option value="DRY_YEAR">DRY YEAR</option>
-            </select>
+            </select> */}
+          <FormControl sx={{ m: 0.5, minWidth: 80 }}>
+            <Select
+            labelId="weather"
+            id="weather"
+            value={Weather}
+            label="Indexcrop"
+          
+            onChange={(e) => setWeather(e.target.value)}
+            >
+            {weather.map((item) => {
+              return (
+                <MenuItem value={item.value} key={item.value}>
+                  {item.label}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
           </div>
           <div className='crop-text'style={{zIndex:10}}>
             <p><b>CROP PRICE INDEX</b></p>
@@ -231,8 +288,8 @@ function App() {
                 
       <FormControl sx={{ m: 0.5, minWidth: 80 }}>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="Indexcrop"
+          id="Indexcrop"
           value={Indexcrop}
           label="Indexcrop"
           
