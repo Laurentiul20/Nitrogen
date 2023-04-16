@@ -47,8 +47,8 @@ function App() {
   //const [map, setMap] = React.useState(map1)
   const [data, setData] = React.useState(initial)
   const [data2, setData2] = React.useState(initial2)
-  const [value1, setValue1] = React.useState(1);
-  const [value2, setValue2] = React.useState(1);
+  const [value1, setValue1] = React.useState(0);
+  const [value2, setValue2] = React.useState(0);
   const [Indexcrop, setIndexcrop] = React.useState(3);
   
   React.useEffect(() => {
@@ -56,12 +56,21 @@ function App() {
     const money ={...data2}
     money.Fertilizer_Reduction = calcaulateFertilizerReduction(value1);
     money.Wetland_Restoration = calculateWetlandRestoration(value2);
+    if (value1 ==0){
+      money.Fertilizer_Reduction=0;
+    }
+    if (value2 ==0){
+      money.Wetland_Restoration=0;
+    }
+
+     if (money.Fertilizer_Reduction+money.Wetland_Restoration>10){}
     setData2(money);
   }, [Indexcrop])
+  
 
-  React.useEffect(() => {
-    console.log(data2.Fertilizer_Reduction)
-  }, [data2]);
+  // React.useEffect(() => {
+  //   console.log(data2.Fertilizer_Reduction)
+  // }, [data2]);
 
   const handleChange = (event, newValue) => {
     const item ={...data}
@@ -76,9 +85,11 @@ function App() {
     // calculates data for Nitrates_Entering_Watershed
     const nitrate_removed = -867.13*Math.pow((newValue/100), 2)+(1550.8*(newValue/100))+39.93;
   //  console.log('nitrate_removed', nitrate_removed);
-    item.Nitrates_Entering_Watershed = initial.Nitrates_Entering_Watershed - nitrate_removed.toFixed(2);
+  if  (newValue > 0){item.Nitrates_Entering_Watershed = (initial.Nitrates_Entering_Watershed - nitrate_removed).toFixed(2);}
+  else if(newValue == 0){item.Nitrates_Entering_Watershed = initial.Nitrates_Entering_Watershed;}
+    
 
-    item.Nitrates_to_Gulf = item.Nitrates_Entering_Watershed - item.Denitrification;
+    item.Nitrates_to_Gulf = (item.Nitrates_Entering_Watershed - item.Denitrification).toFixed(2);
     console.log('value1 ', newValue)
     setData(item)
     setData2(money)
@@ -106,7 +117,7 @@ function App() {
    // console.log('restore_denitrification', restore_denitrification);
     item2.Denitrification = restore_denitrification.toFixed(2);
 
-    item2.Nitrates_to_Gulf = item2.Nitrates_Entering_Watershed-item2.Denitrification
+    item2.Nitrates_to_Gulf = (item2.Nitrates_Entering_Watershed-item2.Denitrification).toFixed(2);
 
     setData(item2)
     setData2(money2)
@@ -264,13 +275,13 @@ function App() {
                     }}
                   >
                     
-                    <XAxis dataKey="name" />
+                    <XAxis dataKey="nitratebar" />
                     <YAxis type="number" domain={[0, 5000]}/>
                     <Tooltip />
                     {/* <Legend /> */}
-                    <Bar dataKey="Nitrates_Entering_Watershed" stackId="a" fill="#8884d8" />
-                    <Bar dataKey="Denitrification" stackId="a" fill="#82ca9d" />
-                    <Bar dataKey="Nitrates_to_Gulf" stackId="a" fill="purple" />
+                    <Bar dataKey="Nitrates_Entering_Watershed" stackId="a" name="Nitrates Entering Watershed" fill="#8884d8" />
+                    <Bar dataKey="Denitrification" stackId="a" name="Denitrification" fill="#82ca9d" />
+                    <Bar dataKey="Nitrates_to_Gulf" stackId="a" name="Nitrates to Gulf" fill="purple" />
                   </BarChart>
             </div>
     <div className='bar2'>
@@ -286,12 +297,14 @@ function App() {
             }}
           >
             
-            <XAxis dataKey="name" />
+            <XAxis dataKey="moneybar" />
             <YAxis type="number" domain={[0, 10]} allowDataOverflow={true}/>
             <Tooltip />
             {/* <Legend /> */}
-            <Bar dataKey="Fertilizer_Reduction" stackId="a" fill="green" />
-            <Bar dataKey="Wetland_Restoration" stackId="a" fill="green" />
+            <Bar dataKey="Fertilizer_Reduction" stackId="a" name="Fertilizer Reduction" fill="green" />
+            <Bar dataKey="Wetland_Restoration" stackId="a" name="Wetland Restoration"fill="green" />
+            {/* <Bar dataKey="Wetland_Restoration+Fertilizer_Reduction" stackId="a" name="Total"fill="red" /> */}
+            
         </BarChart>
     </div>
 
