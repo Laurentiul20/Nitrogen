@@ -18,7 +18,34 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+import Sub from './Sub.js';
+import Chooser from './mapChooser';
+
+
 function App() {
+  const mapChoices = [
+    {
+      label: "WHOLE", value: 0
+    },
+    {
+      label: "SUB WATERSHEDS", value:1
+    },
+    {
+      label: "PAST HYPOXIC ZONES", value:2
+    }
+  ];
+  const [mapSelect, setMap] = React.useState(0)
+
+  if(mapSelect == 0) {
+    return <Whole mapChoices={mapChoices} mapSelect={mapSelect} setMap={setMap} />
+  }
+  else {
+    return <Sub mapChoices={mapChoices} mapSelect={mapSelect} setMap={setMap} />
+  }
+  
+}
+
+function Whole({mapChoices, setMap, mapSelect}) {
   const options = [
     {
       label: "VERY LOW", value: 3
@@ -48,17 +75,6 @@ function App() {
     }
   ];
 
-  const Mapselect = [
-    {
-      label: "WHOLE", value: 0
-    },
-    {
-      label: "SUB WATERSHEDS", value:1
-    },
-    {
-      label: "PAST HYPOXIC ZONES", value:2
-    }
-  ];
   const initial2 =
   {
     Fertilizer_Reduction: 0,
@@ -78,8 +94,8 @@ function App() {
   const [Indexcrop, setIndexcrop] = React.useState(3);
   const [Weather, setWeather] = React.useState(0);
   const [nitrates, setNitrates] = React.useState(BASE_NITRATES)
-  // const [area, setArea] = React.useState(1)
-  const [mapselect, setMap] = React.useState(0)
+  //const [currentMap, setCurrentMap] = React.useState(map)
+  
  
   React.useEffect(() => {
 
@@ -114,6 +130,19 @@ function App() {
     updateWaterShed(newValue)
   };
 
+  // function changeMap(e) {
+  //     setMap(e.target.value)
+  //     if(e.target.value == 1) {
+  //       setCurrentMap(map2)
+  //     }
+  //     if(e.target.value == 0) {
+  //       setCurrentMap(map)
+        
+  //     }
+  //     setData(BASE_NITRATES)
+  //     setData2(initial2);
+  //     setNitrates(BASE_NITRATES)
+  // }
   function updateWaterShed(newValue) {
     const item = { ...data }
     const money = { ...data2 }
@@ -264,9 +293,9 @@ function App() {
 
       <img src={frame} alt="main frame" height={720} width={950} />
       <img src={map} alt="main map" height={700} width={700} style={{ position: 'absolute', zIndex: 2, left: 0, top: 20 }} />
-      <img src={map2} alt="map2" height={700} width={700} style={{ position: 'absolute', zIndex: 0, left: 0, top: 20 }} />
-      <img src={map2transparent} alt="map2transparent" height={700} width={700} style={{ position: 'absolute', zIndex: 0, left: 0, top: 20 }} />
-      <img src={hypoxic} alt="hypoxic"  width={300 * ((total_area)/24853.2)} style={{ position: 'absolute', zIndex: 6, left: 324, bottom: 300 }} />
+     
+      {/* <img src={map2transparent} alt="map2transparent" height={700} width={700} style={{opacity: 0.2, position: 'absolute', zIndex: 1, left: 0, top: 20 }} /> */}
+      <img src={hypoxic} alt="hypoxic"  width={300 * ((total_area)/24853.2)} style={{ position: 'absolute', zIndex: 6, left: 324, top: 570 }} />
     <div style={{ position: 'absolute', zIndex: 6, left: 323, top: 644 }}>
       <h4>
       |&emsp;&ensp;|&emsp;&ensp;|&emsp;&ensp;|&emsp;&ensp;|&emsp;&ensp;|&emsp;&ensp;|&emsp;&ensp;|&emsp;&ensp;|&emsp;&ensp;|&emsp; &ensp;|
@@ -277,6 +306,14 @@ function App() {
       0 km<sup>2</sup>&emsp; 5,000 &emsp; 10,000&emsp; 15,000 &emsp;20,000 &emsp; 25,000
       </h5>
       </div>
+      <div className="percentage" style={{ position: 'absolute', zIndex: 8, left: -100, top: 466 }}>
+        <p>|&ensp; &nbsp; |&ensp; &nbsp; |&ensp; &nbsp; |&ensp; &nbsp; |&ensp; &nbsp; |&ensp; &nbsp; |&ensp; &nbsp; |&ensp; &nbsp; |&ensp; &nbsp; |&ensp; &nbsp; |
+        </p>
+      </div>
+      <div className="percentage2" style={{ position: 'absolute', zIndex: 8, left: 40, top: 285 }}>
+        <p>100<br></br>90<br></br>80<br></br>70<br></br>60<br></br>50<br></br>40<br></br>30<br></br>20<br></br>10<br></br>0</p>
+      </div>
+      
       <img src={corn} alt="corn" height={362} width={153} style={{ position: 'absolute', zIndex: 6, left: 20, top: 320 }} />
       <img src={fillcorn} alt="fillcorn" height={362} width={153} style={overlay} />
       <div className='text-on-image' style={{ zIndex: 4 }}>
@@ -294,24 +331,9 @@ function App() {
           <option value="SUB_WATERSHEDS">SUB WATERSHEDS</option>
           <option value="PAST_HYPOXIC_ZONES">PAST HYPOXIC ZONES</option>
         </select> */}
-        <FormControl sx={{ m: 0.1, minWidth: 80 }}>
-          <Select
-            labelId="map"
-            id="map"
-            value={mapselect}
-            label="map"
-
-            onChange={(e) => setMap(e.target.value)}
-          >
-            {Mapselect.map((item) => {
-              return (
-                <MenuItem value={item.value} key={item.value}>
-                  {item.label}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
+        
+        <Chooser mapChoices={mapChoices} mapSelect={mapSelect} setMap={setMap} />
+        
       </div>
       <div className='weather-text' style={{ zIndex: 10 }}>
         <p><b>WEATHER</b></p>
@@ -327,7 +349,9 @@ function App() {
             labelId="weather"
             id="weather"
             value={Weather}
-            label="Indexcrop"
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
+            
 
             onChange={(e) => setWeather(e.target.value)}
           >
@@ -358,8 +382,8 @@ function App() {
             labelId="Indexcrop"
             id="Indexcrop"
             value={Indexcrop}
-            label="Indexcrop"
-
+            displayEmpty
+            inputProps={{ 'aria-label': 'Without label' }}
             onChange={(e) => setIndexcrop(e.target.value)}
           >
             {options.map((item) => {
@@ -438,54 +462,13 @@ function App() {
           
         </BarChart>
       </div>
-
-      <div className='slider1'>
-        <Box sx={{ width: 300 }} >
-          <Slider style={{ zIndex: 21 }} sx={{
-            color: '#000',
-            '& .MuiSlider-thumb': {
-              backgroundColor: "secondary.light",
-              marginTop: "-13px",
-            },
-            "& .MuiSlider-track": {
-              height: 0
-            },
-          }}
-            aria-label="Always visible"
-            defaultValue={0}
-            onChange={handleChange}
-            min={0}
-            max={100}
-            marks
-            step={1}
-            valueLabelDisplay="auto" />
-        </Box>
-      </div>
-
-      <div className='slider2'>
-        <Box sx={{ width: 300 }} >
-          <Slider style={{ zIndex: 21 }} sx={{
-            color: '#000',
-            '& .MuiSlider-thumb': {
-              backgroundColor: "primary.light",
-              marginTop: "13px",
-
-            },
-            "& .MuiSlider-track": {
-              height: 0
-
-            },
-          }}
-            aria-label="Always visible"
-            defaultValue={0}
-            onChange={handleChange2}
-            min={0}
-            max={100}
-            marks
-            step={1}
-            valueLabelDisplay="auto" />
-        </Box>
-      </div>
+      {<>
+            <Slider1 handleChange={handleChange} />
+            <Slider2 handleChange={handleChange2} />  
+          </>
+      }
+      
+      
       <div className='corntext' style={{ zIndex: 21 }}>
         <h3>Crop Yield Reduction(%)</h3>
       </div>
@@ -493,6 +476,57 @@ function App() {
   );
 }
 
-console.log('version 2')
+function Slider2({handleChange}) {
+  return(<div className='slider2'>
+          <Box sx={{ width: 300 }} >
+            <Slider style={{ zIndex: 21 }} sx={{
+              color: '#000',
+              '& .MuiSlider-thumb': {
+                backgroundColor: "primary.light",
+                marginTop: "13px",
+
+              },
+              "& .MuiSlider-track": {
+                height: 0
+
+              },
+            }}
+              aria-label="Always visible"
+              defaultValue={0}
+              onChange={handleChange}
+              min={0}
+              max={100}
+              marks
+              step={1}
+              valueLabelDisplay="auto" />
+          </Box>
+        </div>)
+}
+
+function Slider1({handleChange}) {
+  return (<div className='slider1'>
+              <Box sx={{ width: 300 }} >
+                <Slider style={{ zIndex: 21 }} sx={{
+                  color: '#000',
+                  '& .MuiSlider-thumb': {
+                    backgroundColor: "secondary.light",
+                    marginTop: "-13px",
+                  },
+                  "& .MuiSlider-track": {
+                    height: 0
+                  },
+                }}
+                  aria-label="Always visible"
+                  defaultValue={0}
+                  onChange={handleChange}
+                  min={0}
+                  max={100}
+                  marks
+                  step={1}
+                  valueLabelDisplay="auto" />
+              </Box>
+        </div>
+  )
+} 
 
 export default App;
