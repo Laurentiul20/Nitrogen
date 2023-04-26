@@ -66,7 +66,6 @@ function Sub({mapChoices, setMap, mapSelect}) {
 
     }
   
-    const [data, setData] = React.useState(BASE_NITRATES)
     const [data2, setData2] = React.useState(initial2)
     const [value1, setValue1] = React.useState(0);
     const [value2, setValue2] = React.useState(0);
@@ -100,10 +99,10 @@ function Sub({mapChoices, setMap, mapSelect}) {
       setData2(money);
     }, [Indexcrop])
   
-    React.useEffect(() => {
-      updateWaterShed(value1);
-      updateWaterShed2(value2);
-    }, [nitrates])
+  //  React.useEffect(() => {
+  //    updateWaterShed(value1);
+  //    updateWaterShed2(value2);
+ //   }, [nitrates])
   
     
     React.useEffect(() => {
@@ -115,21 +114,21 @@ function Sub({mapChoices, setMap, mapSelect}) {
   
     const handleChangeMissouri = (event, newValue) => {
       setValue1(newValue);
-      
+      updateWaterShed2(value2);
       console.log(newValue)
       updateWaterShed(newValue)
     };
   
     function updateWaterShed(newValue) {
-      const itemMissouri = { ...data }
+      const itemMissouri = { ...nitrates }
       const moneyMissouri = { ...data2 }
   
       moneyMissouri.Fertilizer_Reduction = calcaulateFertilizerReduction(newValue)*400/1000;
       if (newValue == 0) { moneyMissouri.Fertilizer_Reduction = 0; }
       itemMissouri.Missouri = (((1-(value2/100))*(1-(newValue/100))*872)*0.45).toFixed(2);
-      console.log('moneyMissouri.Fertilizer_Reduction', moneyMissouri.Fertilizer_Reduction);
+      console.log('itemMissouri.Missouri', itemMissouri.Missouri);
 
-      setData(itemMissouri)
+      setNitrates(itemMissouri)
       setData2(moneyMissouri)
     }
   
@@ -158,14 +157,14 @@ function Sub({mapChoices, setMap, mapSelect}) {
   
     function updateWaterShed2(newValue) {
 
-      const itemMissouri2 = { ...data }
+      const itemMissouri2 = { ...nitrates }
       const moneyMissouri2 = { ...data2 }
       moneyMissouri2.Wetland_Restoration = calculateWetlandRestoration(newValue)*400/1000;
       if (newValue == 0) { moneyMissouri2.Wetland_Restoration = 0; }
       itemMissouri2.Missouri = (((1-(newValue/100))*(1-(value1/100))*872)*0.45).toFixed(2);
       console.log('moneyMissouri2.Wetland_Restoration', moneyMissouri2.Wetland_Restoration);
 
-      setData(itemMissouri2)
+      setNitrates(itemMissouri2)
       setData2(moneyMissouri2)
   
     };
@@ -173,7 +172,7 @@ function Sub({mapChoices, setMap, mapSelect}) {
     const handleChangeTennessee = (event, newValue) => {
       setValue3(newValue);
 
-      const itemTennessee = { ...data }
+      const itemTennessee = { ...nitrates }
       const moneyTennessee = { ...data2 }
   
       moneyTennessee.Fertilizer_Reduction = calcaulateFertilizerReduction(newValue)*10/1000;
@@ -181,14 +180,14 @@ function Sub({mapChoices, setMap, mapSelect}) {
       itemTennessee.Tennessee = (((1-(value4/100))*(1-(newValue/100))*21.8)*1).toFixed(2);
       console.log('itemTennessee.Tennessee', itemTennessee.Tennessee);
       
-      setData(itemTennessee)
+      setNitrates(itemTennessee)
       setData2(moneyTennessee)
     }
     
     const handleChangeTennessee2 = (event, newValue) => {
       setValue4(newValue);
 
-      const itemTennessee2 = { ...data }
+      const itemTennessee2 = { ...nitrates }
       const moneyTennessee2 = { ...data2 }
       moneyTennessee2.Wetland_Restoration = calculateWetlandRestoration(newValue)*10/1000;
       if (newValue == 0) { moneyTennessee2.Wetland_Restoration = 0; }
@@ -196,14 +195,14 @@ function Sub({mapChoices, setMap, mapSelect}) {
       itemTennessee2.Tennessee = (((1-(newValue/100))*(1-(value3/100))*21.8)*1).toFixed(2);
       console.log('itemTennessee2.Tennessee', itemTennessee2.Tennessee);
       
-      setData(itemTennessee2)
+      setNitrates(itemTennessee2)
       setData2(moneyTennessee2)
   
     };
     const handleChangeArkansas = (event, newValue) => {
       setValue5(newValue);
 
-      const itemArkansas = { ...data }
+      const itemArkansas = { ...nitrates }
       const moneyArkansas = { ...data2 }
       moneyArkansas.Fertilizer_Reduction = calcaulateFertilizerReduction(newValue)*120/1000;
       if (newValue == 0) { moneyArkansas.Wetland_Restoration = 0; }
@@ -211,14 +210,14 @@ function Sub({mapChoices, setMap, mapSelect}) {
       itemArkansas.Arkansas_Red_White = (((1-(value6/100))*(1-(newValue/100))*261.6)*2).toFixed(2);
       console.log('itemArkansas.Arkansas', itemArkansas.Arkansas_Red_White);
       
-      setData(itemArkansas)
+      setNitrates(itemArkansas)
       setData2(moneyArkansas)
   
     };
     const handleChangeArkansas2 = (event, newValue) => {
       setValue6(newValue);
 
-      const itemArkansas2 = { ...data }
+      const itemArkansas2 = { ...nitrates }
       const moneyArkansas2 = { ...data2 }
       moneyArkansas2.Wetland_Restoration = calculateWetlandRestoration(newValue)*120/1000;
       if (newValue == 0) { moneyArkansas2.Wetland_Restoration = 0; }
@@ -226,14 +225,14 @@ function Sub({mapChoices, setMap, mapSelect}) {
       itemArkansas2.Arkansas_Red_White = (((1-(newValue/100))*(1-(value5/100))*261.6)*2).toFixed(2);
       console.log('itemArkansas2.Arkansas', itemArkansas2.Arkansas_Red_White);
       
-      setData(itemArkansas2)
+      setNitrates(itemArkansas2)
       setData2(moneyArkansas2)
   
     };
     const handleChangeLowerMississippi = (event, newValue) => {
       setValue7(newValue);
 
-      const itemLowerMississippi = { ...data }
+      const itemLowerMississippi = { ...nitrates }
       const moneyLowerMississippi = { ...data2 }
       moneyLowerMississippi.Fertilizer_Reduction = calcaulateFertilizerReduction(newValue)*50/1000;
       console.log('moneyLowerMississippi.Wetland_Restoration', moneyLowerMississippi.Wetland_Restoration);
@@ -242,14 +241,14 @@ function Sub({mapChoices, setMap, mapSelect}) {
       itemLowerMississippi.Lower_Mississippi = (((1-(value8/100))*(1-(newValue/100))*109)*3).toFixed(2);
       console.log('itemLowerMississippi.LowerMississippi', itemLowerMississippi.Lower_Mississippi);
       
-      setData(itemLowerMississippi)
+      setNitrates(itemLowerMississippi)
       setData2(moneyLowerMississippi)
   
     };
     const handleChangeLowerMississippi2 = (event, newValue) => {
       setValue8(newValue);
 
-      const itemLowerMississippi2 = { ...data }
+      const itemLowerMississippi2 = { ...nitrates }
       const moneyLowerMississippi2 = { ...data2 }
       moneyLowerMississippi2.Wetland_Restoration = calculateWetlandRestoration(newValue)*50/1000;
       if (newValue == 0) { moneyLowerMississippi2.Wetland_Restoration = 0; }
@@ -257,7 +256,7 @@ function Sub({mapChoices, setMap, mapSelect}) {
       itemLowerMississippi2.Lower_Mississippi = (((1-(newValue/100))*(1-(value7/100))*109)*3).toFixed(2);
       console.log('itemLowerMississippi2.LowerMississippi', itemLowerMississippi2.Lower_Mississippi);
       
-      setData(itemLowerMississippi2)
+      setNitrates(itemLowerMississippi2)
       setData2(moneyLowerMississippi2)
   
     };
@@ -265,7 +264,7 @@ function Sub({mapChoices, setMap, mapSelect}) {
     const handleChangeUpperMississippi = (event, newValue) => {
       setValue9(newValue);
 
-      const itemUpperMississippi = { ...data }
+      const itemUpperMississippi = { ...nitrates }
       const moneyUpperMississippi = { ...data2 }
       moneyUpperMississippi.Fertilizer_Reduction = calcaulateFertilizerReduction(newValue)*300/1000;
       if (newValue == 0) { moneyUpperMississippi.Wetland_Restoration = 0; }
@@ -273,13 +272,13 @@ function Sub({mapChoices, setMap, mapSelect}) {
       itemUpperMississippi.Upper_Mississippi = (((1-(value10/100))*(1-(newValue/100))*654)*1).toFixed(2);
       console.log('itemUpperMississippi.UpperMississippi', itemUpperMississippi.Upper_Mississippi);
       
-      setData(itemUpperMississippi)
+      setNitrates(itemUpperMississippi)
       setData2(moneyUpperMississippi)
     };
       const handleChangeUpperMississippi2 = (event, newValue) => {
         setValue10(newValue);
 
-        const itemUpperMississippi2 = { ...data }
+        const itemUpperMississippi2 = { ...nitrates }
         const moneyUpperMississippi2 = { ...data2 }
         moneyUpperMississippi2.Wetland_Restoration = calculateWetlandRestoration(newValue)*300/1000;
         if (newValue == 0) { moneyUpperMississippi2.Wetland_Restoration = 0; }
@@ -287,14 +286,14 @@ function Sub({mapChoices, setMap, mapSelect}) {
         itemUpperMississippi2.Upper_Mississippi = (((1-(newValue/100))*(1-(value9/100))*654)*1).toFixed(2);
         console.log('itemUpperMississippi2.UpperMississippi2', itemUpperMississippi2.Upper_Mississippi);
         
-        setData(itemUpperMississippi2)
+        setNitrates(itemUpperMississippi2)
         setData2(moneyUpperMississippi2)
   
     };
     const handleChangeOhio = (event, newValue) => {
       setValue11(newValue);
 
-      const itemOhio = { ...data }
+      const itemOhio = { ...nitrates }
       const moneyOhio = { ...data2 }
       moneyOhio.Fertilizer_Reduction = calcaulateFertilizerReduction(newValue)*120/1000;
       if (newValue == 0) { moneyOhio.Wetland_Restoration = 0; }
@@ -302,13 +301,13 @@ function Sub({mapChoices, setMap, mapSelect}) {
       itemOhio.Ohio = (((1-(value12/100))*(1-(newValue/100))*261.6)*1).toFixed(2);
       console.log('itemOhio.Ohio', itemOhio.Ohio);
       
-      setData(itemOhio)
+      setNitrates(itemOhio)
       setData2(moneyOhio)
     };
       const handleChangeOhio2 = (event, newValue) => {
         setValue12(newValue);
 
-        const itemOhio2 = { ...data }
+        const itemOhio2 = { ...nitrates }
         const moneyOhio2 = { ...data2 }
         moneyOhio2.Wetland_Restoration = calculateWetlandRestoration(newValue)*120/1000;
         if (newValue == 0) { moneyOhio2.Wetland_Restoration = 0; }
@@ -316,7 +315,7 @@ function Sub({mapChoices, setMap, mapSelect}) {
         itemOhio2.Ohio = (((1-(newValue/100))*(1-(value11/100))*261.6)*1).toFixed(2);
         console.log('itemOhio2.Ohio2', itemOhio2.Ohio);
         
-        setData(itemOhio2)
+        setNitrates(itemOhio2)
         setData2(moneyOhio2)
   
     };
@@ -328,24 +327,6 @@ function Sub({mapChoices, setMap, mapSelect}) {
     }
   
   
-  
-    // setData((prevData) => {
-    //   const newData = [...prevData];
-    //   const item = newData[0]
-    //   const calculation = Math.abs(newValue-tempValue)*100;
-    //   console.log('calculation', calculation);
-    //   if (newValue > tempValue) {
-    //     //item.Nitrates_Entering_Watershed = item.Nitrates_Entering_Watershed + 100;
-    //     item.Nitrates_Entering_Watershed = item.Nitrates_Entering_Watershed + calculation;
-    //   } else if (newValue == tempValue){
-    //     item.Nitrates_Entering_Watershed = item.Nitrates_Entering_Watershed;
-    //   }
-    //   else {
-    //     item.Nitrates_Entering_Watershed = item.Nitrates_Entering_Watershed - calculation;
-    //   }
-    //   setTempValue(newValue);
-    //  return newData;
-    // });
   
     /*var slider1 = document.getElementById("myRange1");
     var output1 = document.getElementById("slide1");
@@ -381,7 +362,7 @@ function Sub({mapChoices, setMap, mapSelect}) {
     }*/
     const total_area=calculate_area();
     function calculate_area(){
-      let total_area=(data.Nitrates_to_Gulf-(value2 / 100)*data.Nitrates_to_Gulf)*20-5000
+      let total_area=(nitrates.Nitrates_to_Gulf-(value2 / 100)*nitrates.Nitrates_to_Gulf)*20-5000
       if (total_area<0){total_area=0;}
       return total_area;
     }
@@ -546,7 +527,7 @@ function Sub({mapChoices, setMap, mapSelect}) {
           <BarChart style={{ zIndex: 18 }}
             width={200}
             height={500}
-            data={[data]}
+            data={[nitrates]}
             margin={{
               top: 0,
               right: 30,
