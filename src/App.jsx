@@ -19,8 +19,9 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 import Sub from './Sub.js';
+import Past from './Past.js';
 import Chooser from './mapChooser';
-
+import {BASE_NITRATES, INTIAL, WEATHER, OPTIONS} from './constants'
 
 function App() {
   const mapChoices = [
@@ -39,56 +40,19 @@ function App() {
   if(mapSelect == 0) {
     return <Whole mapChoices={mapChoices} mapSelect={mapSelect} setMap={setMap} />
   }
-  else {
+  else if (mapSelect == 1) {
     return <Sub mapChoices={mapChoices} mapSelect={mapSelect} setMap={setMap} />
+  }
+  else {
+    return <Past mapChoices={mapChoices} mapSelect={mapSelect} setMap={setMap} />
   }
   
 }
 
 function Whole({mapChoices, setMap, mapSelect}) {
-  const options = [
-    {
-      label: "VERY LOW", value: 3
-    },
-    {
-      label: "LOW", value: 4
-    },
-    {
-      label: "MEDIUM", value: 5
-    },
-    {
-      label: "HIGH", value: 6
-    },
-    {
-      label: "VERY HIGH", value: 7
-    }
-  ];
-  const weather = [
-    {
-      label: "WET YEAR", value: 0
-    },
-    {
-      label: "MEDIUM", value: -500
-    },
-    {
-      label: "DRY YEAR", value: -1000
-    }
-  ];
-
-  const initial2 =
-  {
-    Fertilizer_Reduction: 0,
-    Wetland_Restoration: 0,
-  }
-
-  const BASE_NITRATES = {
-    Nitrates_to_Gulf: 1492.66,
-    Denitrification: 687.34,
-    Nitrates_Entering_Watershed: 2180
-  }
-
+ 
   const [data, setData] = React.useState(BASE_NITRATES)
-  const [data2, setData2] = React.useState(initial2)
+  const [data2, setData2] = React.useState(INTIAL)
   const [value1, setValue1] = React.useState(0);
   const [value2, setValue2] = React.useState(0);
   const [Indexcrop, setIndexcrop] = React.useState(3);
@@ -355,7 +319,7 @@ function Whole({mapChoices, setMap, mapSelect}) {
 
             onChange={(e) => setWeather(e.target.value)}
           >
-            {weather.map((item) => {
+            {WEATHER.map((item) => {
               return (
                 <MenuItem value={item.value} key={item.value}>
                   {item.label}
@@ -386,7 +350,7 @@ function Whole({mapChoices, setMap, mapSelect}) {
             inputProps={{ 'aria-label': 'Without label' }}
             onChange={(e) => setIndexcrop(e.target.value)}
           >
-            {options.map((item) => {
+            {OPTIONS.map((item) => {
               return (
                 <MenuItem value={item.value} key={item.value}>
                   {item.label}

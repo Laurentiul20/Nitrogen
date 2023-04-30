@@ -246,6 +246,15 @@
     top: 40px;
   }
   
+  .year {
+    opacity: 1;
+    font-family: Arial;
+    text-align: center;
+    position: absolute;
+    left: 710px;
+    top: 40px;
+  }
+
   .weather2 {
     border: 1px solid;
     opacity: 1;
@@ -272,6 +281,16 @@
     position: absolute;
     left: 640px;
     top: 12px;
+  }
+
+  .year-text {
+    font-size: 18px;
+    line-height: 0;
+    font-family: Arial;
+    text-align: center;
+    position: absolute;
+    left: 760px;
+    top: 4px;
   }
   
   .crop {
