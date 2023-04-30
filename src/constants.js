@@ -44,7 +44,7 @@ export const NITRATES_BY_STATE = {
       Ohio: 261.6,
       Upper_Mississippi: 654,
       Missouri: 392.4,
-      Arkansas_Red_White: 523.2,
+      Arkansas: 523.2,
       Lower_Mississippi: 327,
       Tennessee: 21.8
 }
