@@ -30,6 +30,10 @@ function Sub({mapChoices, setMap, mapSelect}) {
     // then change the updateWaterShed function
     const [values, setValues] = React.useState(
         {"Missouri": 0, "Tennessee" : 0, "Arkansas": 0, "Ohio": 0, "Upper_Mississippi": 0, "Lower_Mississippi": 0})
+    const [stateReduction, setStateReduction] = React.useState(
+          {"Missouri": 0, "Tennessee" : 0, "Arkansas": 0, "Ohio": 0, "Upper_Mississippi": 0, "Lower_Mississippi": 0})
+    const [stateWetland, setStateWetland] = React.useState(
+          {"Missouri": 0, "Tennessee" : 0, "Arkansas": 0, "Ohio": 0, "Upper_Mississippi": 0, "Lower_Mississippi": 0})
     
     const [value2Missouri, setValue2Missouri] = React.useState(0);
     const [value2Tennesse, setvalue2Tennessee] = React.useState(0);
@@ -48,16 +52,20 @@ function Sub({mapChoices, setMap, mapSelect}) {
     React.useEffect(() => {
   
       const money = { ...data2 }
-      money.Fertilizer_Reduction = calcaulateFertilizerReduction(values.Missouri);
-      money.Wetland_Restoration = calculateWetlandRestoration(value2Missouri);
-      if (values.Missouri == 0) {
-        money.Fertilizer_Reduction = 0;
+      const states = {...stateReduction}
+      let fertilizer = 0;
+      for(let i = 0 ; i < names.length ; i++) {
+        
+        const state = names[i];
+        const result = updateWaterShed(values[state], state);
+        states[state] = result.Fertilizer_Reduction
+        fertilizer += result.Fertilizer_Reduction
+       
       }
-      if (value2Missouri == 0) {
-        money.Wetland_Restoration = 0;
-      }
+      money.Fertilizer_Reduction = fertilizer;
      
       setData2(money);
+      setStateReduction(states)
     }, [Indexcrop])
   
   //  React.useEffect(() => {
@@ -77,24 +85,40 @@ function Sub({mapChoices, setMap, mapSelect}) {
        setNitrates(n2);
     }, [weather]);
 
+    React.useEffect(() => {
+      let reduction = 0;
+      let wetland = 0;
+
+      for(let i = 0 ; i < names.length ; i++) {
+         const state = names[i];
+         reduction += stateReduction[state]
+         wetland += stateWetland[state]
+      }
+      setData2({Wetland_Restoration: wetland, Fertilizer_Reduction: reduction})
+   }, [stateReduction, stateWetland]);
+
+
     function updateWeather(value) {
        setWeather(value);
     }
   
     function updateSliderValues(result, state) {
         const n2 = {...nitrates}
-        const d = {...data2 }
         n2[state] = result[state]
         setNitrates(n2)
         if(result.Wetland_Restoration !== undefined) {
-          d['Wetland_Restoration'] =  result.Wetland_Restoration
+          const w = {...stateWetland}
+          w[state] =  result.Wetland_Restoration
+          setStateWetland(w)
         }
         if(result.Fertilizer_Reduction !== undefined) {
-          d['Fertilizer_Reduction'] =  result.Fertilizer_Reduction
+          const r = {...stateReduction}
+          r[state] =  result.Fertilizer_Reduction
+          setStateReduction(r)
         }
-        setData2(d)
-        
+       
     }
+
     const handleChangeMissouri = (event, newValue) => {
         setValues({...values, "Missouri": newValue});
         updateSliderValues(
