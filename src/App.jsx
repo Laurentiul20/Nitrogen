@@ -364,7 +364,7 @@ function Whole({mapChoices, setMap, mapSelect}) {
 
       </div>
       <div className='filter-range'>
-        <div className='filter-range-title'>Fertilization Reduction (%)</div>
+        <div className='filter-range-title'>Fertilizer Reduction (%)</div>
         {/* <div className='slidercontainer'>
                   <input type="range" min="0" max="100" defaultValue="0" className="slider" step="1" id="myRange1" />
                   <div> <span id="slide1">0</span> </div>
