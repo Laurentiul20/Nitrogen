@@ -1,3 +1,12 @@
+FIRST OF ALL, after downloading all the files from repository, using command prompt 'cd' indide the downloaded folder and call:
+npm i
+This allows to install all node modules for the app to be able to run it.
+Then the command 'npm start' can be called to start the project in web browser at localhost:3000
+
+To build a working version for HTML, in cmd write 'npm run build'
+A map called "build" will be created where a html file will display the result.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
