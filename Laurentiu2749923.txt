@@ -1,0 +1,28 @@
+Time Log:
+10/02/2022: 8:00pm - 9:00pm Downloading all games and play the simulations
+10/15/2022: 12:40pm - 2:10pm Focusing on Nitrogen game and recording its features and posibilities
+10/16/2022: 6:20pm - 7:33pm Learning more about html5, learning how to use javascript
+10/23/2022: 10:42pm - 11:20pm Remeber how to use Github and its tools, creating repository
+	    11:48pm - 12:19am Uploading source code given, game features and timelog
+11/27/2022: 3:30pm - 6:20pm Learn react, figure out error when displaying image, learning connection between classes
+01/25/2023: 10:10pm - 1:00am Created frame backgroud, added map, created a draggable element for slider on top of map
+01/31/2023: 8:05pm - 9:18pm Tried to convert react into an html to be able to display it on csu website, did not work
+02/03/2023: 7:10pm - 8:00pm Managed to convert and post react app to the CSU website in html format
+02/18/2023: 2:00pm - 5:47pm Created dropdown menus, added styles, hovers, borders.
+02/19/2023: 8:21pm - 11:15pm Created bar chart, sliders, corrected positions of objects.
+03/06/2023: 8:40pm - 11:50pm Worked on binding slider, was not successful.
+04/09/2023: 6:20pm - 9:45pm Changed entire structure of the slider, used a react slider component, added style
+04/11/2023: 6:00pm - 11:02pm Connected bar chart with slider, created dependency, checked correct values from excel
+04/12/2023: 7:13pm - 12:18am Created formula that uses excel to change values correspondingly. Created fuctional crop price index and used it in total cost when modifying fertilizer reduction slider.
+04/13/2023: 9:07pm - 12:03am Corrected graph bar bug showing many decimals, created function to update cost after seelcting index crop, before was needed to click again on the slider for updated price, corrected representaion of Nitrate to Gulf value, it was dependent on both sliders output at the same time
+04/14/2023: 9:35pm - 11:25pm Corrected initial value for both cost as the counting formula leaves a bug where the price at slider value 0 still shows some cost because of a constant addition in the formula that kept the value of cost just a little mothe than 0. Corrected names on graph bars.
+04/16/2023: 11:00am - 2:00pm Altered the bar dealing with cost to change color when the price reaches 10 billion, which is the limit for the game. Added weather dropdown bar functionality, now it displays right values when selection is changed.
+04/18/2023: 12:30pm - 2:15pm Created label for hypoxic zone and its size, joined data output with hypoxic zone size, now it scales correctly with sliders, and dropdown selection like weather.
+	    9:31pm - 11:13pm Created a clip that makes overlay work for crop image. Created right scale with formula that scales of the sliders.
+04/20/2023: 10:07am - 11:35 am Created label with percentage for crop image, changed design of select dropdown
+04/20/2023: 8:59pm - 10:57 pm Worked on the final draft on the project with the team
+04/25/2023: 2:07pm - 11:59 pm Created second map, all 12 sliders, connected them with the 2 graphbars, connected with weather dropdown and crop price index dropdown, created all formulas for nitrates calulations and price for each state. Created new file that keeps constants to use in both maps.
+04/27/2023: 9:00am - 10:10 am Connected hypoxic zone area to the sliders, now it shrinks as it should
+04/29/2023: 11:56am - 2:20 pm Bound right formula with corn image to display right shading, created 3-rd map in selection dropdown with all years and right size for hypoxic zone.
+	    10:17pm - 1:32am Corrected right changes for weather dropdown, now all states changes accordingly to formula
+05/01/2023: 8:45pm - 11:20pm Corrected money and index crop dropdown displaying right formula. Wrapping up the project.
