@@ -1,4 +1,4 @@
-FIRST OF ALL, after downloading all the files from repository, using command prompt 'cd' indide the downloaded folder and call: <br>
+FIRST OF ALL, after downloading all the files from repository, using command prompt 'cd' go inside the downloaded folder and call: <br>
 npm i <br>
 This allows to install all node modules for the app to be able to run it. <br>
 Then the command 'npm start' can be called to start the project in web browser at localhost:3000 <br>
